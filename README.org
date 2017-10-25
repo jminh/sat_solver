@@ -1,0 +1,8 @@
+
+Build and run
+
+#+BEGIN_SRC sh
+cd src
+make
+./build/app/main
+#+END_SRC
