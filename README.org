@@ -6,3 +6,10 @@ cd src
 make
 ./build/app/main
 #+END_SRC
+
+* misc
+
+initial commit: baf7d76
+
+One directory app hosts all source files!
+It serves as an simple c++ example built with cmake.
