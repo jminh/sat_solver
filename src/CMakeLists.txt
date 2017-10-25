@@ -11,3 +11,4 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(SAT_APP)
 
 add_subdirectory(app)
+add_subdirectory(str_util)
