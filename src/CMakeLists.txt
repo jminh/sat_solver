@@ -12,3 +12,6 @@ project(SAT_APP)
 
 add_subdirectory(app)
 add_subdirectory(str_util)
+add_subdirectory(libs)
+
+enable_testing()

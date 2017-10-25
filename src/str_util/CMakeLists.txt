@@ -10,3 +10,15 @@ target_include_directories(str_util_static PUBLIC
 #target_include_directories(str_util_static PUBLIC
 #  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 #)
+
+
+ set(BASE_TEST_SOURCES
+    test/test_base.cpp
+    test/test_str_util.cpp
+)
+
+enable_testing()
+
+add_executable(test_str_util ${BASE_TEST_SOURCES})
+target_link_libraries(test_str_util str_util_static Catch)
+add_test(NAME TestBase COMMAND test_str_util)
