@@ -1,8 +1,15 @@
 #include "sat.h"
 #include <iostream>
 
+#define ELPP_STL_LOGGING
+#include "easylogging++.h"
+
+INITIALIZE_EASYLOGGINGPP
+
 int main() {
   SAT sat;
+   LOG(INFO) << "My first info log using default logger";
+   LOG(INFO) << "My first info log using default logger";
 
   sat.parse_and_add_clause("A B ~C");
   sat.parse_and_add_clause("B C");
@@ -16,6 +23,9 @@ int main() {
     }
     std::cout << '\n';
   }
+
+
+   LOG(INFO) << sat.clause;
 
   for (auto &kv: sat.variable_table) {
       std::cout << kv.first;

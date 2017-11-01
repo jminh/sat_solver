@@ -7,5 +7,7 @@ set_target_properties(sat_static PROPERTIES OUTPUT_NAME "sat")
 #target_include_directories(sat_static
 #  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
+find_package(easyloggingpp REQUIRED)
+
 add_executable(main main.cc)
-target_link_libraries(main sat_static str_util_static)
+target_link_libraries(main sat_static str_util_static easyloggingpp)
