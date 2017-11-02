@@ -100,3 +100,50 @@ void solve(const SAT& instance,
     }
     assigment[d] = -1;
 }
+
+void solve_iterative(const SAT& instance,
+           std::vector<std::vector<int>>& solution,
+           std::vector<std::vector<std::vector<int>>>& watchlist,
+           std::vector<int>& assigment,
+           int d,
+           bool verbose) {
+
+    const auto& n = instance.variables.size();
+    std::vector<int> state(n, 0);
+
+    while (true) {
+        if (d == n) {
+            solution.push_back(assigment);
+            d -= 1;
+            continue;
+        }
+
+        auto tried_something = false;
+        const std::vector<int> false_true = {0, 1};
+        for (auto& a: false_true) {
+            if (((state[d] >> a) &  1) == 0) {
+                if (verbose) {
+                    std::cout << "verbose mode\n";
+                }
+                tried_something = true;
+                state[d] |= 1 << a;
+                assigment[d] = a;
+                if (!update_watchlist(instance, watchlist, (d<<1|a), assigment, verbose)) {
+                    assigment[d] = -1;
+                } else {
+                    d += 1;
+                    break;
+                }
+             }
+        }
+        if (!tried_something) {
+            if (d == 0 ) {
+                return;
+            } else {
+                state[d] = 0;
+                assigment[d] = -1;
+                d -= 1;
+            }
+        }
+    }
+}

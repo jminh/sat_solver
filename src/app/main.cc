@@ -41,7 +41,8 @@ int main() {
 
   std::vector<std::vector<int>> solution;
 
-  solve(sat, solution, watchlist, assigment, 0, false);
+  // solve, solve_iterative
+  solve_iterative(sat, solution, watchlist, assigment, 0, false);
   std::cout << "number" ;
 
   std::cout << solution.size() << "\n";

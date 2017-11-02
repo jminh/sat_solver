@@ -31,4 +31,11 @@ void solve(const SAT& instance,
            int d,
            bool verbose);
 
+void solve_iterative(const SAT& instance,
+           std::vector<std::vector<int>>& solution,
+           std::vector<std::vector<std::vector<int>>>& watchlist,
+           std::vector<int>& assigment,
+           int d,
+           bool verbose);
+
 #endif
