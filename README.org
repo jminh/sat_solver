@@ -1,5 +1,5 @@
 
-Build and run
+* Build and run
 
 #+BEGIN_SRC sh
 cd src
@@ -13,3 +13,11 @@ initial commit: baf7d76
 
 One directory app hosts all source files!
 It serves as an simple c++ example built with cmake.
+
+* Compilation database - compile_commands.json
+
+Passing "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" to cmake.
+
+#+BEGIN_SRC sh
+(cd build; cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..)
+#+END_SRC
