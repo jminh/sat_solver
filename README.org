@@ -21,3 +21,99 @@ Passing "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" to cmake.
 #+BEGIN_SRC sh
 (cd build; cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..)
 #+END_SRC
+
+* cmake dependency: easyloggingpp
+** prepare easyloggingpp
+#+begin_src sh
+git clone https://github.com/muflihun/easyloggingpp.git
+cd easyloggingpp
+git reset --hard b7b4cbf8de1c7a85c45b7e17cdaff95b256b18a8
+#+end_src  
+
+apply patch 
+
+git diff                                                                                                                                        (master &!)
+#+begin_example
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 314e203..b7f143b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -48,11 +48,18 @@ if (build_static_lib)
+         require_cpp11()
+         add_library(easyloggingpp STATIC src/easylogging++.cc)
+
++        target_include_directories(easyloggingpp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+         install(TARGETS
+             easyloggingpp
+             ARCHIVE DESTINATION lib)
+ endif()
+
++set(targets_export_name "${PROJECT_NAME}Targets")
++set(project_config "${PROJECT_NAME}Config.cmake")
++#set(namespace "${PROJECT_NAME}::")
++
++export(TARGETS easyloggingpp FILE ${project_config})
++
+ export(PACKAGE ${PROJECT_NAME})
+#+end_example
+
+** build
+   
+#+begin_src sh
+cd easyloggingpp
+mkdir build; cp build
+cmake -Dbuild_static_lib=ON ..
+#+end_src
+
+You will see
+~/.cmake/packages/Easyloggingpp
+
+** On Linux
+
+On Linux, app/CMakeLists.txt should like
+find_package(Easyloggingpp REQUIRED)
+   
+#+begin_example
+git diff app/CMakeLists.txt                                                                                                                     (master &!)
+diff --git a/src/app/CMakeLists.txt b/src/app/CMakeLists.txt
+index d3cb2c9..799357e 100644
+--- a/src/app/CMakeLists.txt
++++ b/src/app/CMakeLists.txt
+@@ -7,5 +7,7 @@ set_target_properties(sat_static PROPERTIES OUTPUT_NAME "sat")
+ #target_include_directories(sat_static
+ #  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
++find_package(Easyloggingpp REQUIRED)
++
+ add_executable(main main.cc)
+-target_link_libraries(main sat_static str_util_static)
++target_link_libraries(main sat_static str_util_static easyloggingpp)
+#+end_example
+
+#+BEGIN_SRC sh
+cd src
+make
+./build/app/main
+#+END_SRC
+
+** misc
+   
+Library
+
+#+BEGIN_EXAMPLE
+# This makes the project importable from the build directory
+export(TARGETS lib FILE MyLibraryConfig.cmake)
+#+END_EXAMPLE
+
+CMake/Tutorials/Package Registry
+https://cmake.org/Wiki/CMake/Tutorials/Package_Registry
+
+On UNIX platforms the user package registry is stored
+in the user home directory under ~/.cmake/packages.
+
+A <package> may appear under the directory
+
+#+BEGIN_EXAMPLE
+ ~/.cmake/packages/<package>
+#+END_EXAMPLE
+
