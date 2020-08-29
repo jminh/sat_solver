@@ -61,8 +61,9 @@ index 314e203..b7f143b 100644
    
 #+begin_src sh
 cd easyloggingpp
-mkdir build; cp build
+mkdir build; cd build
 cmake -Dbuild_static_lib=ON ..
+make
 #+end_src
 
 You will see
